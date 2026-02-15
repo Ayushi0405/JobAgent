@@ -1,0 +1,5 @@
+GOOGLE_API_KEY="AIzaSy..."
+SUPABASE_URL="https://your-project.supabase.co"
+SUPABASE_KEY="your-service-key"
+TELEGRAM_TOKEN="12345:ABC..."
+TELEGRAM_CHAT_ID="987654321"

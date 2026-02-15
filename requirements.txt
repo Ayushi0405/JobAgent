@@ -1,0 +1,10 @@
+fastapi
+uvicorn
+langchain-google-genai
+langgraph
+browser-use
+supabase
+python-dotenv
+pydantic
+python-telegram-bot
+playwright
