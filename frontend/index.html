@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Ghost Hunter AI</title>
+    <style>
+        /* Modern Dark Theme */
+        body { background: #111827; color: white; font-family: sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+        .glass-panel {
+            background: rgba(31, 41, 55, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.1);
+            padding: 40px;
+            border-radius: 20px;
+            width: 500px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        }
+        input, textarea { width: 100%; background: #374151; border: none; color: white; padding: 15px; margin-bottom: 15px; border-radius: 8px; box-sizing: border-box; }
+        button { width: 100%; padding: 15px; border-radius: 8px; border: none; font-weight: bold; cursor: pointer; transition: 0.3s; }
+        .btn-primary { background: #3b82f6; color: white; }
+        .btn-success { background: #10b981; color: white; display: none; margin-top: 10px; }
+        .status-log { margin-top: 20px; font-family: monospace; font-size: 0.9em; color: #9ca3af; height: 150px; overflow-y: auto; }
+    </style>
+</head>
+<body>
+    <div class="glass-panel">
+        <h2 style="margin-top:0">👻 Ghost Hunter</h2>
+        <input type="text" id="url" placeholder="Paste Job URL...">
+        <textarea id="resume" rows="4" placeholder="Paste Master Resume..."></textarea>
+        
+        <button class="btn-primary" onclick="startHunt()">Initiate Sequence</button>
+        <button class="btn-success" id="approveBtn" onclick="approve()">✅ Approve & Submit</button>
+        
+        <div class="status-log" id="logs">System Ready...</div>
+    </div>
+
+    <script>
+        let currentId = null;
+
+        async function startHunt() {
+            log("🚀 Connecting to Agent...");
+            const res = await fetch('http://localhost:8000/api/start', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({
+                    url: document.getElementById('url').value,
+                    resume: document.getElementById('resume').value
+                })
+            });
+            const data = await res.json();
+            currentId = data.thread_id;
+            
+            log("🕵️‍♂️ Analyzing Job...");
+            log("🦎 Tailoring Resume...");
+            log("📝 Filling Form...");
+            
+            setTimeout(() => {
+                log("⚠️ PAUSED: Waiting for your approval.");
+                document.getElementById('approveBtn').style.display = 'block';
+            }, 3000); // Simulated delay for demo
+        }
+
+        async function approve() {
+            log("✅ Approval Sent. Submitting...");
+            await fetch(`http://localhost:8000/api/approve/${currentId}`, {method: 'POST'});
+            log("🎉 Application Submitted Successfully!");
+            document.getElementById('approveBtn').style.display = 'none';
+        }
+
+        function log(msg) {
+            const logs = document.getElementById('logs');
+            logs.innerHTML += `<div>> ${msg}</div>`;
+            logs.scrollTop = logs.scrollHeight;
+        }
+    </script>
+</body>
+</html>
